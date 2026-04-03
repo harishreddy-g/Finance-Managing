@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finance Tracker</title>
+
     <style>
         body {
             background-color: antiquewhite;
@@ -199,5 +200,54 @@
 
 
 </body>
+<script>
+    console.log("welcome to my finance tracker");
+    let name = "Harish Reddy";
+    console.log("Created by" + name);
+
+    let expense1 = 2000;
+    let expense2 = 500;
+    let totalExpense = expense1 + expense2;
+    console.log("Total Expense:" + totalExpense);
+
+    let category = "Food";
+    let amount = 1000;
+    console.log("You spent " + amount + " on " + category);
+
+    let expenses = [2000, 500, 1000, 1500];
+    for (let i = 0; i < expenses.length; i++) {
+        console.log("Expense " + (i + 1) + ": " + expenses[i]);
+    }
+    console.log(expenses);
+    expenses.push(2500);
+    console.log(expenses);
+    let transaction = [
+        {
+            category: "groceries",
+            amount: 2000,
+            date: "2026-01-01"
+        },
+        {
+            category: "Food",
+            amount: 1000,
+            date: "2026-01-03"
+        },
+        {
+            category: "console games",
+            amount: 10000,
+            date: "2026-01-04"
+        },
+        {
+            category: "Food",
+            amount: 2000,
+            date: "2026-01-05"
+        }
+    ]
+    console.log(transaction);
+    for (let i = 0; i < transaction.length; i++) {
+        console.log(" Transaction: " + transaction[i].amount + " spent on " + transaction[i].category + " on " + transaction[i].date);
+    }
+    console.log("Total Transactions: " + transaction.length);
+</script>
 
 </html>
