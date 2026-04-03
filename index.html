@@ -141,7 +141,7 @@
                         <th>Date</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tablebody">
                     <tr>
                         <td>Groceries</td>
                         <td>2000</td>
@@ -201,6 +201,54 @@
 
 </body>
 <script>
+    let Transactions = [];
+    let tableBody = document.getElementById("tablebody");
+
+
+    let categoryInput = document.getElementById("category");
+    let amountInput = document.getElementById("amount");
+    let dateInput = document.getElementById("date");
+
+    document.querySelector("form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        let category = categoryInput.value;
+        let amount = amountInput.value;
+        let date = dateInput.value;
+        let transaction = {
+            category: category,
+            amount: amount,
+            date: date
+        }
+        Transactions.push(transaction);
+
+        displayTransactions();
+
+        console.log("Total Transactions:" + Transactions.length);
+        console.log(Transactions);
+
+        categoryInput.value = "";
+        amountInput.value = "";
+        dateInput.value = "";
+
+    });
+    function displayTransactions() {
+        tableBody.innerHTML = "";
+        for (let i = 0; i < Transactions.length; i++) {
+            let row = "<tr>" +
+                "<td>" + Transactions[i].category + "</td>" +
+                "<td>" + Transactions[i].amount + "</td>" +
+                "<td>" + Transactions[i].date + "</td>" +
+                "</tr>";
+            tableBody.innerHTML += row;
+        }
+    }
+
+
+
+
+
+
+    /*  practice code for learning javascript
     console.log("welcome to my finance tracker");
     let name = "Harish Reddy";
     console.log("Created by" + name);
@@ -261,6 +309,7 @@
         console.log("Amount: " + amountValue);
         console.log("Date: " + dateValue);
     })
+    */
 </script>
 
 </html>
