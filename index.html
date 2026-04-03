@@ -1,66 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finance Tracker</title>
+    <style>
+        body {
+            background-color: antiquewhite;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        h1 {
+            color: brown;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+        }
+
+        h2 {
+            color: rgb(209, 144, 76)
+        }
+
+        h3 {
+            color: rgb(202, 208, 137)
+        }
+
+        p {
+            color: rgb(25, 88, 67);
+        }
+
+        div {
+            text-align: left;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid black;
+            width: 70%;
+            box-shadow: 2px 2px 10px gray;
+
+        }
+
+        form {
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid greenyellow;
+
+        }
+
+        table {
+            background-color: rgb(169, 226, 241);
+            border-collapse: collapse;
+            margin: 10px auto;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid black;
+        }
+
+        button {
+            padding: 10px 15px;
+
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            background-color: brown;
+            color: white;
+        }
+
+        button:hover {
+            background-color: rgb(158, 152, 152);
+        }
+
+        input {
+            cursor: pointer;
+            text-align: center;
+            padding: 10px;
+            margin: auto;
+            border-radius: 8px;
+        }
+
+
+
+        input:focus {
+            background-color: lightyellow;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            justify-content: space-evenly;
+        }
+
+        .container>div {
+            flex: 1;
+        }
+    </style>
 </head>
+
 <body>
     <h1>Finance Tracker</h1>
     <p>Welcome to the Finance Tracker. This application helps you to manage your daily expenses.</p>
     <hr>
-    <div>
-        <h2>Transactions</h2>
-        
-      <br>
-    <form>
-        <h3>Add Transaction</h3><br>
-        <label>Category:</label><br>
-        <input type="text" id="category" name="category" placeholder="Enter category"><br><br>
-        <label >Amount:</label><br>
-        <input type="number" id="amount" name="amount" placeholder="Enter amount"><br><br>
-        <label>Date:</label><br>
-        <input type="date" id="date" name="date" ><br><br>
-        <button type="submit">Submit</button>
-    </form><br>
-    
-    </div>
-    <hr>
+    <h2>Transactions</h2>
+    <div class="container">
 
 
-    <div>
-        <h2>View Transactions</h2>
-        <table border="1">
-           <thead>
-             <tr>
-                <th>Category</th>
-                <th>Amount</th>
-                <th>Date</th>
-            </tr>
-           </thead>
-           <tbody>
-             <tr>
-                <td>Groceries</td>
-                <td>2000</td>
-                <td>2026-01--01</td>
-            </tr>
-            <tr>
-                <td>Movie</td>
-                <td>500</td>
-                <td>2026-01-02</td>
-            </tr>
-            <tr>
-                <td>Food</td>
-                <td>1000</td>
-                <td>2026-01-03</td>
-            </tr>
-            <tr>
-                <td>Console Games</td>
-                <td>1500</td>
-                <td>2026-01-04</td>
-            </tr>
-           </tbody>
-        </table>
+        <div>
+
+            <form>
+                <h3>Add Transaction</h3><br>
+                <label>Category:</label><br>
+                <input type="text" id="category" name="category" placeholder="Enter category"><br><br>
+                <label>Amount:</label><br>
+                <input type="number" id="amount" name="amount" placeholder="Enter amount"><br><br>
+                <label>Date:</label><br>
+                <input type="date" id="date" name="date"><br><br>
+                <button type="submit">Submit</button>
+            </form><br>
+
+        </div>
+
+
+
+        <div>
+            <h2 align="center">View Transactions</h2>
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Groceries</td>
+                        <td>2000</td>
+                        <td>2026-01-01</td>
+                    </tr>
+                    <tr>
+                        <td>Movie</td>
+                        <td>500</td>
+                        <td>2026-01-02</td>
+                    </tr>
+                    <tr>
+                        <td>Food</td>
+                        <td>1000</td>
+                        <td>2026-01-03</td>
+                    </tr>
+                    <tr>
+                        <td>Console Games</td>
+                        <td>1500</td>
+                        <td>2026-01-04</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <hr>
 
@@ -80,9 +183,9 @@
 
     <div>
         <h2>Balance</h2>
-    <button>View Balance</button><br><br>
-    <button>Set Budget Limit</button>
-</div>
+        <button>View Balance</button><br><br>
+        <button>Set Budget Limit</button>
+    </div>
     <hr>
     <div>
         <h2>Reports</h2>
@@ -94,6 +197,7 @@
 
     <p>© 2026 Finance Tracker. All rights reserved.<br> Created by Harish Reddy</p>
 
-    
+
 </body>
+
 </html>
