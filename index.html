@@ -248,6 +248,19 @@
         console.log(" Transaction: " + transaction[i].amount + " spent on " + transaction[i].category + " on " + transaction[i].date);
     }
     console.log("Total Transactions: " + transaction.length);
+
+    let categoryInput = document.getElementById("category");
+    let amountInput = document.getElementById("amount");
+    let dateInput = document.getElementById("date");
+    document.querySelector("form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        let categoryValue = categoryInput.value;
+        let amountValue = amountInput.value;
+        let dateValue = dateInput.value;
+        console.log("Category: " + categoryValue);
+        console.log("Amount: " + amountValue);
+        console.log("Date: " + dateValue);
+    })
 </script>
 
 </html>
