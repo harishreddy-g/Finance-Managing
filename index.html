@@ -120,7 +120,7 @@
                 <label>Category:</label><br>
                 <input type="text" id="category" name="category" placeholder="Enter category"><br><br>
                 <label>Amount:</label><br>
-                <input type="number" id="amount" name="amount" placeholder="Enter amount"><br><br>
+                <input type="number" id="amount" name="amount" placeholder="Enter amount" min="1"><br><br>
                 <label>Date:</label><br>
                 <input type="date" id="date" name="date"><br><br>
                 <button type="submit">Submit</button>
@@ -195,6 +195,10 @@
         let category = categoryInput.value;
         let amount = amountInput.value;
         let date = dateInput.value;
+        if(category===""||amount===""||date===""){
+            alert("Please fill all the details");
+            return;
+        }
         let transaction = {
             category: category,
             amount: amount,
@@ -225,8 +229,10 @@
     }
 
     function deleteTransaction(index) {
-        Transactions.splice(index, 1);
-        displayTransactions();
+        if (confirm("Are you sure you want to delete this transaction?")) {
+            Transactions.splice(index, 1);
+            displayTransactions();
+        }
     }
 
 
