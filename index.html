@@ -142,26 +142,7 @@
                     </tr>
                 </thead>
                 <tbody id="tablebody">
-                    <tr>
-                        <td>Groceries</td>
-                        <td>2000</td>
-                        <td>2026-01-01</td>
-                    </tr>
-                    <tr>
-                        <td>Movie</td>
-                        <td>500</td>
-                        <td>2026-01-02</td>
-                    </tr>
-                    <tr>
-                        <td>Food</td>
-                        <td>1000</td>
-                        <td>2026-01-03</td>
-                    </tr>
-                    <tr>
-                        <td>Console Games</td>
-                        <td>1500</td>
-                        <td>2026-01-04</td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -223,8 +204,7 @@
 
         displayTransactions();
 
-        console.log("Total Transactions:" + Transactions.length);
-        console.log(Transactions);
+
 
         categoryInput.value = "";
         amountInput.value = "";
@@ -238,10 +218,17 @@
                 "<td>" + Transactions[i].category + "</td>" +
                 "<td>" + Transactions[i].amount + "</td>" +
                 "<td>" + Transactions[i].date + "</td>" +
+                "<td><button onclick='deleteTransaction(" + i + ")'>Delete</button></td>" +
                 "</tr>";
             tableBody.innerHTML += row;
         }
     }
+
+    function deleteTransaction(index) {
+        Transactions.splice(index, 1);
+        displayTransactions();
+    }
+
 
 
 
