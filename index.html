@@ -10,6 +10,8 @@
         body {
             background-color: antiquewhite;
             font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
         h1 {
@@ -25,6 +27,12 @@
 
         h3 {
             color: rgb(202, 208, 137)
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ccc;
         }
 
         p {
@@ -47,6 +55,7 @@
             margin: 0 auto;
             padding: 20px;
             border: 1px solid greenyellow;
+
 
         }
 
@@ -111,12 +120,27 @@
         button.delete-btn:hover {
             background-color: darkred;
         }
+
+        select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 80%;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            color: gray;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Finance Tracker</h1>
-    <p>Welcome to the Finance Tracker. This application helps you to manage your daily expenses.</p>
+    <div style="text-align:center; margin-bottom:20px;">
+        <h1>💰 Finance Tracker</h1>
+        <p>Track your daily expenses easily</p>
+    </div>
     <hr>
     <h2>Transactions</h2>
     <div class="container">
@@ -127,13 +151,22 @@
             <form>
                 <h3>Add Transaction</h3><br>
                 <label>Category:</label><br>
-                <input type="text" id="category" name="category" placeholder="Enter category"><br><br>
+                <select id="category">
+                    <option value="">Select Category</option>
+                    <option value="Groceries">Groceries</option>
+                    <option value="Movie">Movie</option>
+                    <option value="Food">Food</option>
+                    <option value="Console Games">Console Games</option>
+                </select><br><br>
                 <label>Amount:</label><br>
                 <input type="number" id="amount" name="amount" placeholder="Enter amount" min="1"><br><br>
                 <label>Date:</label><br>
                 <input type="date" id="date" name="date"><br><br>
                 <button type="submit">Submit</button>
-            </form><br>
+            </form>
+            <p id="message" style="color: red; text-align: center;"></p>
+            <br>
+
 
         </div>
 
@@ -213,7 +246,9 @@
 
     <hr>
 
-    <p>© 2026 Finance Tracker. All rights reserved.<br> Created by Harish Reddy</p>
+    <footer>
+        <p>© 2026 Finance Tracker. All rights reserved.<br> Created by Harish Reddy</p>
+    </footer>
 
 
 </body>
@@ -233,6 +268,8 @@
     let filterCategory = document.getElementById("filterCategory");
     let filteredTableBody = document.getElementById("filteredTableBody");
 
+    let message = document.getElementById("message");
+
 
     document.querySelector("form").addEventListener("submit", function (event) {
         event.preventDefault();
@@ -240,8 +277,9 @@
         let amount = amountInput.value;
         let date = dateInput.value;
         if (category === "" || amount === "" || date === "") {
-            alert("Please fill all the details");
+            message.innerText = "Please fill in all fields.";
             return;
+
         }
         let transaction = {
             category: category,
@@ -262,6 +300,8 @@
     });
     function displayTransactions() {
         tableBody.innerHTML = "";
+        message.innerText = "";
+
         for (let i = 0; i < Transactions.length; i++) {
             let row = "<tr>" +
                 "<td>" + Transactions[i].category + "</td>" +
@@ -271,6 +311,8 @@
                 "</tr>";
             tableBody.innerHTML += row;
         }
+
+
     }
 
     function deleteTransaction(index) {
@@ -295,22 +337,36 @@
     function showBalance() {
         let budget = 5000;
         let total = calculateTotal();
-        balanceText.innerText = "Your total balance is: " + Math.abs(budget - total);
+        let balance = budget - total;
+
+        if (balance >= 0) {
+            balanceText.innerText = "Remaining Balance: " + balance;
+        } else {
+            balanceText.innerText = "You exceeded budget by: " + Math.abs(balance);
+        }
     }
 
     function filterTransactions() {
         let selectedCategory = filterCategory.value;
         filteredTableBody.innerHTML = "";
-        for (let i = 0; i < Transactions.length; i++) {
-            if (selectedCategory === "All" || Transactions[i].category === selectedCategory) {
-                let row = "<tr>" +
-                    "<td>" + Transactions[i].category + "</td>" +
-                    "<td>" + Transactions[i].amount + "</td>" +
-                    "<td>" + Transactions[i].date + "</td>" +
-                    "</tr>";
-                filteredTableBody.innerHTML += row;
+
+        if (Transactions.length === 0) {
+            filteredTableBody.innerHTML = "<tr><td colspan='4'>No transactions yet</td></tr>";
+            return;
+        } else {
+            for (let i = 0; i < Transactions.length; i++) {
+                if (selectedCategory === "All" || Transactions[i].category === selectedCategory) {
+                    let row = "<tr>" +
+                        "<td>" + Transactions[i].category + "</td>" +
+                        "<td>" + Transactions[i].amount + "</td>" +
+                        "<td>" + Transactions[i].date + "</td>" +
+                        "</tr>";
+                    filteredTableBody.innerHTML += row;
+                }
             }
         }
+
+
     }
 
 
