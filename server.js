@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
+/* 
 
 const transactions = [
     { category: "Food", amount: 200, date: "2023-06-01" },
@@ -9,8 +10,7 @@ const transactions = [
     { category: "Entertainment", amount: 100, date: "2023-06-03" }
 ];
 
-app.get('/', function (req, res) {
-    res.send("Server is running");
+
 });
 app.get('/transactions', function (req, res) {
     res.json({
@@ -35,6 +35,17 @@ app.post('/transactions', function (req, res) {
         message: "Transactions added successfully"
     });
 });
+*/
+
+const transactionRoutes = require('./routes/transactions');
+
+app.use('/transactions', transactionRoutes);
+
+app.get('/', function (req, res) {
+    res.send("Server is running successfully");
+});
+
+
 app.listen(3000, function () {
     console.log("server is running on port 3000");
     console.log("transactions link: http://localhost:3000/transactions");
