@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 
 app.use(express.json());
@@ -36,6 +37,15 @@ app.post('/transactions', function (req, res) {
     });
 });
 */
+
+
+mongoose.connect("mongodb://localhost:27017/FinanceDB").then(function(req,res){
+    console.log("Data base server connected successfully");
+})
+.catch(function(err){
+    console.log("connection error: "+ err);
+});
+
 
 const transactionRoutes = require('./routes/transactions');
 
