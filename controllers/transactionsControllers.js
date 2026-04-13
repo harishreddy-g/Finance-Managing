@@ -17,12 +17,28 @@ const Transaction = require('../models/Transaction');
 // };
 
 exports.getTransactions = async function (req, res) {
-    const transactions = await Transaction.find();
-    res.status(200).json({
-        success: true,
-        data: transactions,
-        message: "transaction fetched successfully"
-    });
+    try {
+        const category = req.query.category;
+        const filter = {};
+        if (category) {
+            filter.category = category;
+        }
+        const transactions = await Transaction
+            .find(filter)
+            .sort({ date: -1 });
+
+        res.status(200).json({
+            success: true,
+            data: transactions,
+            message: "transaction fetched successfully"
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
+
 };
 
 // exports.addTransactions = function (req, res) {
@@ -48,24 +64,22 @@ exports.getTransactions = async function (req, res) {
 // };
 
 exports.addTransactions = async function (req, res) {
-    const { category, amount, date } = req.body;
+    try {
+        const newTransaction = new Transaction(req.body);
+        await newTransaction.save();
 
-    if (!category || !amount || !date) {
-        return res.status(400).json({
-            success: false,
-            message: "Invalid fields"
+        res.status(200).json({
+            success: true,
+            data: newTransaction,
+            message: "Transaction added successfuly"
         });
-    }
-    const newTransaction = new Transaction({
-        category, amount, date
-    });
-    await newTransaction.save();
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        })
 
-    res.status(200).json({
-        success: true,
-        data: newTransaction,
-        message: "Transaction added successfuly"
-    });
+    }
 };
 
 exports.deleteTransactions = function (req, res) {
