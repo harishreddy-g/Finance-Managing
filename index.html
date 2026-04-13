@@ -253,6 +253,17 @@
 
 </body>
 <script>
+    fetch("http://localhost:3000/transactions")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+        });
+
+
+
+
     let Transactions = [];
     let tableBody = document.getElementById("tablebody");
 
