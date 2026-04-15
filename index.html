@@ -253,13 +253,29 @@
 
 </body>
 <script>
-    fetch("http://localhost:3000/transactions")
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data);
-        });
+   fetch("http://localhost:3000/transactions")
+.then(function (response) {
+    return response.json();
+})
+.then(function (result) {
+
+    const transactions = result.data;
+
+    tableBody.innerHTML = "";
+
+    for (let i = 0; i < transactions.length; i++) {
+
+        const t = transactions[i];
+
+        let row = "<tr>" +
+            "<td>" + t.category + "</td>" +
+            "<td>" + t.amount + "</td>" +
+            "<td>" + new Date(t.date).toLocaleDateString() + "</td>" +
+            "</tr>";
+
+        tableBody.innerHTML += row;
+    }
+});
 
 
 
