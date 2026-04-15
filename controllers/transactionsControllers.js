@@ -1,7 +1,7 @@
-let transactions = [{ id: 1, category: "Food", Amount: 500, date: "01-02-2001" },
-{ id: 2, category: "Movie", Amount: 1000, date: "01-03-2001" }
-];
-let currentID = 3;
+// let transactions = [{ id: 1, category: "Food", Amount: 500, date: "01-02-2001" },
+// { id: 2, category: "Movie", Amount: 1000, date: "01-03-2001" }
+// ];
+// let currentID = 3;
 
 
 const Transaction = require('../models/Transaction');
