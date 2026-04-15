@@ -7,7 +7,7 @@
     <title>Finance Tracker</title>
 
     <style>
-        body {
+        /* body {
             background-color: antiquewhite;
             font-family: Arial, Helvetica, sans-serif;
             margin: 0;
@@ -132,6 +132,129 @@
             text-align: center;
             padding: 10px;
             color: gray;
+        } */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+        }
+
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+
+        h2 {
+            text-align: center;
+            color: #495057;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: #6c757d;
+        }
+
+        p {
+            color: #495057;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ccc;
+        }
+
+        .container {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            width: 90%;
+            margin: auto;
+        }
+
+        .container>div {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            text-align: center;
+        }
+
+        input,
+        select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 90%;
+            margin-top: 5px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            background-color: #fff3cd;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 8px 5px;
+            border: none;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+
+        button.delete-btn {
+            background-color: red;
+        }
+
+        button.delete-btn:hover {
+            background-color: darkred;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #343a40;
+            color: white;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+
+        canvas {
+            display: block;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            color: gray;
         }
     </style>
 </head>
@@ -151,7 +274,7 @@
             <form>
                 <h3>Add Transaction</h3><br>
                 <label>Category:</label><br>
-                <select id="category">
+                <select id="category" required>
                     <option value="">Select Category</option>
                     <option value="Groceries">Groceries</option>
                     <option value="Movie">Movie</option>
@@ -213,6 +336,11 @@
         <button>Set Budget Limit</button>
     </div>
 
+    <hr>
+    <div>
+        <h2>Expense Chart</h2>
+        <canvas id="expenseChart"></canvas>
+    </div>
     <hr>
     <div>
         <h2>Filter Transactions</h2>
@@ -307,7 +435,8 @@
         let date = dateInput.value;
 
         if (!category || !amount || !date) {
-            message.innerText = "Please fill in all fields.";
+            message.innerText = "⚠ Please fill all fields properly";
+            message.style.color = "red";
             return;
         }
 
@@ -401,7 +530,9 @@
 
                     tableBody.innerHTML += row;
                 }
+                loadChart(transactions);
             })
+
 
 
     }
@@ -467,26 +598,35 @@
     }
 
     function filterTransactions() {
-        let selectedCategory = filterCategory.value;
-        filteredTableBody.innerHTML = "";
 
-        if (Transactions.length === 0) {
-            filteredTableBody.innerHTML = "<tr><td colspan='4'>No transactions yet</td></tr>";
-            return;
-        } else {
-            for (let i = 0; i < Transactions.length; i++) {
-                if (selectedCategory === "All" || Transactions[i].category === selectedCategory) {
-                    let row = "<tr>" +
-                        "<td>" + Transactions[i].category + "</td>" +
-                        "<td>" + Transactions[i].amount + "</td>" +
-                        "<td>" + Transactions[i].date + "</td>" +
-                        "</tr>";
-                    filteredTableBody.innerHTML += row;
-                }
-            }
+        let selectedCategory = filterCategory.value;
+
+        let url = "http://localhost:3000/transactions";
+
+        if (selectedCategory !== "All") {
+            url += "?category=" + selectedCategory;
         }
 
+        fetch(url)
+            .then(res => res.json())
+            .then(result => {
 
+                const transactions = result.data;
+
+                filteredTableBody.innerHTML = "";
+
+                for (let i = 0; i < transactions.length; i++) {
+                    const t = transactions[i];
+
+                    let row = "<tr>" +
+                        "<td>" + t.category + "</td>" +
+                        "<td>" + t.amount + "</td>" +
+                        "<td>" + new Date(t.date).toLocaleDateString() + "</td>" +
+                        "</tr>";
+
+                    filteredTableBody.innerHTML += row;
+                }
+            });
     }
     displayTransactions();
 
