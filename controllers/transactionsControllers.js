@@ -76,60 +76,63 @@ exports.addTransactions = async function (req, res) {
     } catch (err) {
         res.status(400).json({
             success: false,
-            message: error.message
+            message: err.message
         })
 
     }
 };
+exports.deleteTransactions = async function (req, res) {
+    try {
+        const id = req.params.id;
 
-exports.deleteTransactions = function (req, res) {
-    const id = parseInt(req.params.id);
+        const deleted = await Transaction.findByIdAndDelete(id);
 
-    const index = transactions.findIndex(t => t.id === id);
-    if (index === -1) {
-        return res.status(404).json({
-            success: false,
-            message: "Transaction not found ."
+        if (!deleted) {
+            return res.status(404).json({
+                success: false,
+                message: "Transaction not found"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Transaction deleted successfully"
         });
-    }
 
-    transactions.splice(index, 1);
-    res.json({
-        success: true,
-        message: "Transaction deleted successfully."
-    });
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            message: err.message
+        })
+    }
 };
-exports.updateTransactions = function (req, res) {
-    const id = parseInt(req.params.id);
+exports.updateTransactions = async function (req, res) {
+    try {
+        const id = req.params.id;
 
-    const index = transactions.findIndex(t => t.id === id);
+        const updated = await Transaction.findByIdAndUpdate(
+            id,
+            req.body,
+            { new: true }
+        );
 
-    if (index === -1) {
-        return res.status(404).json({
+        if (!updated) {
+            return res.status(404).json({
+                success: false,
+                message: "Transaction not found"
+            });
+        }
+
+        res.json({
+            success: true,
+            data: updated,
+            message: "Transaction updated successfully"
+        });
+
+    } catch (error) {
+        res.status(500).json({
             success: false,
-            message: "Transaction not found"
+            message: error.message
         });
     }
-
-    const updatedData = req.body;
-
-    if (!updatedData.category || !updatedData.amount || !updatedData.date) {
-        return res.status(400).json({
-            success: false,
-            message: "Invalid fields"
-        });
-    }
-
-    transactions[index] = {
-        id: id,
-        category: updatedData.category,
-        amount: updatedData.amount,
-        date: updatedData.date
-    };
-
-    res.json({
-        success: true,
-        data: transactions[index],
-        message: "Transaction updated successfully"
-    });
 };
