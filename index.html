@@ -253,29 +253,29 @@
 
 </body>
 <script>
-   fetch("http://localhost:3000/transactions")
-.then(function (response) {
-    return response.json();
-})
-.then(function (result) {
+    fetch("http://localhost:3000/transactions")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (result) {
 
-    const transactions = result.data;
+            const transactions = result.data;
 
-    tableBody.innerHTML = "";
+            tableBody.innerHTML = "";
 
-    for (let i = 0; i < transactions.length; i++) {
+            for (let i = 0; i < transactions.length; i++) {
 
-        const t = transactions[i];
+                const t = transactions[i];
 
-        let row = "<tr>" +
-            "<td>" + t.category + "</td>" +
-            "<td>" + t.amount + "</td>" +
-            "<td>" + new Date(t.date).toLocaleDateString() + "</td>" +
-            "</tr>";
+                let row = "<tr>" +
+                    "<td>" + t.category + "</td>" +
+                    "<td>" + t.amount + "</td>" +
+                    "<td>" + new Date(t.date).toLocaleDateString() + "</td>" +
+                    "</tr>";
 
-        tableBody.innerHTML += row;
-    }
-});
+                tableBody.innerHTML += row;
+            }
+        });
 
 
 
@@ -308,36 +308,82 @@
             return;
 
         }
-        let transaction = {
-            category: category,
-            amount: amount,
-            date: date
-        }
-        Transactions.push(transaction);
+        // let transaction = {
+        //     category: category,
+        //     amount: amount,
+        //     date: date
+        // }
+        // Transactions.push(transaction);
+        fetch("http://localhost:3000/transactions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                category: category,
+                amount: amount,
+                date: date
+            })
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (date) {
+                message.innerText = "Transaction added successfully";
 
-        displayTransactions();
-        updateTotal();
+                displayTransactions();
+                updateTotal();
+
+                categoryInput.value = "";
+                amountInput.value = "";
+                dateInput.value = "";
+
+            })
+            .catch(function (error) {
+                console.log(error);
+                message.innerText = " Got some error on adding transaction.!!"
+            })
 
 
 
-        categoryInput.value = "";
-        amountInput.value = "";
-        dateInput.value = "";
+
+
+
 
     });
     function displayTransactions() {
-        tableBody.innerHTML = "";
-        message.innerText = "";
+        // tableBody.innerHTML = "";
+        // message.innerText = "";
 
-        for (let i = 0; i < Transactions.length; i++) {
-            let row = "<tr>" +
-                "<td>" + Transactions[i].category + "</td>" +
-                "<td>" + Transactions[i].amount + "</td>" +
-                "<td>" + Transactions[i].date + "</td>" +
-                "<td><button class='delete-btn' onclick='deleteTransaction(" + i + ")'>Delete</button></td>" +
-                "</tr>";
-            tableBody.innerHTML += row;
-        }
+        // for (let i = 0; i < Transactions.length; i++) {
+        //     let row = "<tr>" +
+        //         "<td>" + Transactions[i].category + "</td>" +
+        //         "<td>" + Transactions[i].amount + "</td>" +
+        //         "<td>" + Transactions[i].date + "</td>" +
+        //         "<td><button class='delete-btn' onclick='deleteTransaction(" + i + ")'>Delete</button></td>" +
+        //         "</tr>";
+        //     tableBody.innerHTML += row;
+        // }
+
+        fetch("http://localhost:3000/transactions")
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (result) {
+                const transactions = result.data;
+                tableBody.innerHTML = "";
+
+                for (let i = 0; i < transactions.length; i++) {
+                    const t = transactions[i];
+                    let row = "<tr>" +
+                        "<td>" + t.category + "</td>" +
+                        "<td>" + t.amount + "</td>" +
+                        "<td>" + new Date(t.date).toLocaleDateString() + "</td>" +
+                        "</tr>";
+
+                    tableBody.innerHTML += row;
+                }
+            })
 
 
     }
