@@ -35,7 +35,7 @@ exports.signup = async function (req, res) {
         });
     }
 };
-
+const jwt = require('jsonwebtoken');
 exports.login = async function (req, res) {
     try {
         const { email, password } = req.body;
@@ -63,6 +63,9 @@ exports.login = async function (req, res) {
                 message: "Invalid password"
             });
         }
+        const token = jwt.sign(
+            { id: userEmail._id }, "secretkey", { expiresIn: "1d" }
+        )
 
         res.status(200).json({
             success: true,
