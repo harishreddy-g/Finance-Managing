@@ -13,8 +13,13 @@ const transactionSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
 
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
     }
 }, { timestamps: true });
 
-const Transaction = mongoose.model('Transaction', transactionSchema);
+const Transaction = mongoose.models.Transaction || mongoose.model('Transaction', transactionSchema);
 module.exports = Transaction;

@@ -3,10 +3,10 @@ const router = express.Router();
 const { protect } = require('../middleware/auth');
 const transactionController = require('../controllers/transactionsControllers');
 
-router.get('/', transactionController.getTransactions);
-router.post('/', transactionController.addTransactions);
-router.delete('/:id', transactionController.deleteTransactions);
-router.put('/:id', transactionController.updateTransactions);
+router.get('/', protect, transactionController.getTransactions);
+router.post('/', protect, transactionController.addTransactions);
+router.delete('/:id', protect, transactionController.deleteTransactions);
+router.put('/:id', protect, transactionController.updateTransactions);
 
 
 

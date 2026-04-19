@@ -1,4 +1,3 @@
-const user = require('../models/User');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
@@ -70,10 +69,12 @@ exports.login = async function (req, res) {
         res.status(200).json({
             success: true,
             message: "Logged in successfully",
+            token: token,
             user: {
                 id: userEmail._id,
                 name: userEmail.name,
-                email: userEmail.email
+                email: userEmail.email,
+                budgetLimit: userEmail.budgetLimit || 0
             }
         })
 
@@ -84,3 +85,33 @@ exports.login = async function (req, res) {
         });
     }
 }
+
+exports.getProfile = async function (req, res) {
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+        res.status(200).json({ success: true, user });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+exports.updateBudget = async function (req, res) {
+    try {
+        const { budgetLimit } = req.body;
+        const user = await User.findByIdAndUpdate(
+            req.user.id,
+            { budgetLimit },
+            { new: true }
+        ).select('-password');
+        
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+        res.status(200).json({ success: true, message: "Budget updated successfully", user });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};

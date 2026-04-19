@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+    
+        /* Main container */
+        .container {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 340px;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+    
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    
+        h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: #f8fafc;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            font-size: 28px;
+        }
+    
+        /* Inputs */
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px 16px;
+            margin: 10px 0;
+            border-radius: 10px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+    
+        input:focus {
+            outline: none;
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+            background: rgba(15, 23, 42, 0.8);
+        }
+        
+        input::placeholder { color: #94a3b8; }
+    
+        /* Button */
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+    
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(168, 85, 247, 0.6);
+        }
+    
+        /* Message */
+        #message {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #fb7185;
+            min-height: 20px;
+        }
+    
+        /* Link text */
+        .switch {
+            margin-top: 25px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+    
+        .switch a {
+            color: #a855f7;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+    
+        .switch a:hover {
+            color: #d8b4fe;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Welcome Back</h2>
+
+        <input type="email" id="email" placeholder="Enter email">
+        <input type="password" id="password" placeholder="Enter password">
+
+        <button onclick="login()">Login</button>
+
+        <p id="message"></p>
+
+        <p class="switch">
+            Don't have an account?
+            <a href="signup.html">Signup</a>
+        </p>
+    </div>
+
+    <script>
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            window.location.href = "dashboard.html";
+        }
+        function login() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            fetch("http://localhost:3000/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, password })
+            })
+                .then(res => res.json())
+                .then(data => {
+
+                    if (data.success) {
+                        localStorage.setItem("token", data.token);
+                        window.location.href = "dashboard.html";
+                    } else {
+                        document.getElementById("message").innerText = data.message;
+                    }
+                });
+        }
+    </script>
+</body>
+</html>

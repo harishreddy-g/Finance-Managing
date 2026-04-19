@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+        .hero {
+            max-width: 620px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 28px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 22px 60px rgba(0, 0, 0, 0.24);
+            backdrop-filter: blur(10px);
+        }
+        .hero h1 {
+            margin: 0 0 18px;
+            font-size: 3em;
+            letter-spacing: 0.02em;
+        }
+        .hero p {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.92);
+        }
+        .hero .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .hero button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 999px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .hero button:hover {
+            transform: translateY(-2px);
+        }
+        .login-btn {
+            background: #22c55e;
+            color: #0f172a;
+        }
+        .signup-btn {
+            background: #fb7185;
+            color: white;
+        }
+        .small-text {
+            margin-top: 24px;
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 0.96rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Welcome to Finance Management</h1>
+        <p>Track your expenses, manage budgets, and see your financial status from one easy dashboard.</p>
+        <div class="buttons">
+            <button class="login-btn" onclick="window.location.href='/login'">Login</button>
+            <button class="signup-btn" onclick="window.location.href='/signup'">Sign Up</button>
+        </div>
+        <p class="small-text">Open the login or signup page to continue. Your data will be saved using the backend API.</p>
+    </div>
+</body>
+</html>

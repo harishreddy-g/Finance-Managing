@@ -5,6 +5,7 @@
 
 
 const Transaction = require('../models/Transaction');
+const user = require('../models/user');
 
 
 
@@ -19,13 +20,11 @@ const Transaction = require('../models/Transaction');
 exports.getTransactions = async function (req, res) {
     try {
         const category = req.query.category;
-        const filter = {};
+        const filter = { user: req.user.id };
         if (category) {
             filter.category = category;
         }
-        const transactions = await Transaction
-            .find(filter)
-            .sort({ date: -1 });
+        const transactions = await Transaction.find(filter);
 
         res.status(200).json({
             success: true,
@@ -65,7 +64,10 @@ exports.getTransactions = async function (req, res) {
 
 exports.addTransactions = async function (req, res) {
     try {
-        const newTransaction = new Transaction(req.body);
+        const newTransaction = await Transaction.create({
+            ...req.body,
+            user: req.user.id
+        });
         await newTransaction.save();
 
         res.status(200).json({
@@ -85,7 +87,10 @@ exports.deleteTransactions = async function (req, res) {
     try {
         const id = req.params.id;
 
-        const deleted = await Transaction.findByIdAndDelete(id);
+        const deleted = await Transaction.findOneAndDelete({
+            _id: req.params.id,
+            user: req.user.id
+        });
 
         if (!deleted) {
             return res.status(404).json({
@@ -110,8 +115,11 @@ exports.updateTransactions = async function (req, res) {
     try {
         const id = req.params.id;
 
-        const updated = await Transaction.findByIdAndUpdate(
-            id,
+        const updated = await Transaction.findOneAndUpdate(
+            {
+                _id: req.params.id,
+                user: req.user.id
+            },
             req.body,
             { new: true }
         );

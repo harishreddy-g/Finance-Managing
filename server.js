@@ -3,11 +3,32 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
 const authRoutes = require('./routes/auth');
+const path = require('path');
 
 
 app.use(cors());
 app.use(express.json());
 app.use('/auth', authRoutes);
+
+
+
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+app.get('/signup', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'signup.html'));
+});
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+app.get('/profile', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'profile.html'));
+});
 /* 
 
 const transactions = [
@@ -56,12 +77,10 @@ const transactionRoutes = require('./routes/transactions');
 
 app.use('/transactions', transactionRoutes);
 
-app.get('/', function (req, res) {
-    res.send("Server is running successfully");
-});
+
 
 
 app.listen(3000, function () {
     console.log("server is running on port 3000");
-    console.log("transactions link: http://localhost:3000/transactions");
+    console.log("transactions link: http://localhost:3000");
 });

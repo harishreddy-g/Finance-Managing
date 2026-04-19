@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Management - Profile</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #f8fafc;
+            margin: 0;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav {
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            padding: 15px 25px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #f8fafc;
+            font-weight: 500;
+            margin-right: 25px;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover { color: #a855f7; }
+
+        .logout-btn {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 16px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2 { text-align: center; font-weight: 600; color: #f1f5f9; }
+        
+        h1 {
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 40px;
+            background: -webkit-linear-gradient(#f8fafc, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .profile-info div {
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 12px;
+            border-left: 4px solid #a855f7;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-info strong {
+            width: 150px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        
+        .profile-info span { font-weight: 600; color: #f8fafc; }
+
+        .budget-form {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: rgba(15, 23, 42, 0.6);
+            color: white;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+        }
+        
+        input::placeholder { color: #64748b; }
+
+        button.primary-btn {
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 10px;
+        }
+
+        button.primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(168, 85, 247, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav glass-panel">
+        <div>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="profile.html">Profile</a>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="container glass-panel">
+        <h1>User Profile</h1>
+        
+        <div class="profile-info">
+            <div><strong>Name</strong> <span id="userName">Loading...</span></div>
+            <div><strong>Email</strong> <span id="userEmail">Loading...</span></div>
+            <div><strong>Budget Limit</strong> $<span id="userBudget">Loading...</span></div>
+        </div>
+
+        <div class="budget-form">
+            <h2 style="margin-bottom: 5px;">Update Budget Limit</h2>
+            <p style="text-align: center; color: #94a3b8; font-size: 14px; margin-top: 0; margin-bottom: 20px;">Adjust your monthly spending limit</p>
+            <input type="number" id="newBudget" placeholder="Enter new budget amount" required>
+            <button class="primary-btn" onclick="updateBudget()">Save Budget</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000';
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+
+        async function loadProfile() {
+            try {
+                const response = await fetch(`${API_BASE}/auth/profile`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('userName').textContent = data.user.name;
+                    document.getElementById('userEmail').textContent = data.user.email;
+                    document.getElementById('userBudget').textContent = data.user.budgetLimit || 0;
+                    document.getElementById('newBudget').value = data.user.budgetLimit || 0;
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('Failed to load profile');
+            }
+        }
+
+        async function updateBudget() {
+            const budgetLimit = document.getElementById('newBudget').value;
+            if (!budgetLimit || budgetLimit < 0) {
+                alert("Please enter a valid budget limit");
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/budget`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ budgetLimit: Number(budgetLimit) })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Budget updated successfully!');
+                    document.getElementById('userBudget').textContent = data.user.budgetLimit;
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('Failed to update budget');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        }
+
+        loadProfile();
+    </script>
+</body>
+</html>

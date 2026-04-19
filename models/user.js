@@ -12,8 +12,12 @@ const signupSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    budgetLimit: {
+        type: Number,
+        default: 0
     }
 
 }, { timeseries: true });
-const user = mongoose.model('user', signupSchema);
-module.exports = user;
+const User = mongoose.models.user || mongoose.model('user', signupSchema);
+module.exports = User;
